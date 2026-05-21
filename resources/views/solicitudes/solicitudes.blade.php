@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes | Consultoria Legal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/Style.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold brand-link" href="/">
+                <img class="brand-logo" src="/images/logo.png" alt="Logo de Consultoria Legal">
+                <span>Consultoria Legal</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesNav"
+                aria-controls="solicitudesNav" aria-expanded="false" aria-label="Abrir navegacion">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="solicitudesNav">
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/vista/clientes">Clientes</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link"
+                            href="/vista/consultorias">Consultorias</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/vista/usuarios">Usuarios</a></li>
+                    <li class="nav-item" th:unless="${isAdmin}"><a class="nav-link"
+                            href="/vista/servicios">Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/vista/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero py-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <span class="badge text-bg-primary mb-3">Modulo de solicitudes</span>
+                    <h1 class="display-6 fw-bold mb-3"
+                        th:text="${isAdmin ? 'Controla las solicitudes del proceso de punta a punta.' : 'Seguimiento de tus solicitudes de consultoria.'}">
+                        Controla las solicitudes del proceso de punta a punta.
+                    </h1>
+                    <p class="lead text-secondary mb-0"
+                        th:text="${isAdmin ? 'Revisa el avance de cada tramite, actualiza estados y conserva el historial operativo.' : 'Revisa el estado de tus tramites, consulta la informacion registrada y mantente al tanto del avance de cada solicitud.'}">
+                        Revisa el avance de cada tramite, actualiza estados y conserva el historial operativo.
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="quick-panel">
+                        <div class="card-body p-4">
+                            <h2 class="h5 mb-3">Acciones rapidas</h2>
+                            <div class="d-grid gap-2">
+                                <a href="/vista/solicitudes/nueva" class="btn btn-primary">Nueva solicitud</a>
+                                <a th:if="${isAdmin}" href="/vista/consultorias" class="btn btn-outline-secondary">Ver
+                                    consultorias</a>
+                                <a th:unless="${isAdmin}" href="/vista/servicios" class="btn btn-outline-secondary">Ver
+                                    servicios</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-5">
+        <div class="container">
+            <section class="section-panel">
+                <div class="card-body p-4">
+                    <div
+                        class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                        <div>
+                            <h2 class="h4 mb-1 section-title"
+                                th:text="${isAdmin ? 'Listado de solicitudes' : 'Tus solicitudes'}">
+                                Listado de solicitudes
+                            </h2>
+
+
+                            <p class="text-secondary mb-0">Seguimiento centralizado para solicitudes de clientes y
+                                servicios contratados.</p>
+                        </div>
+                        <a class="btn btn-primary" href="/vista/solicitudes/nueva">Nueva solicitud</a>
+                    </div>
+
+                    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Solicitante</th>
+                                    <th>Correo</th>
+                                    <th th:if="${isAdmin}">Cliente</th>
+                                    <th>Descripcion</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Consultoria deseada</th>
+                                    <th class="text-end" th:if="${isAdmin}">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:if="${#lists.isEmpty(solicitudes)}">
+                                    <td th:colspan="${isAdmin ? 9 : 7}" class="text-center text-secondary py-4">No hay
+                                        solicitudes registradas todavia.</td>
+                                </tr>
+                                <tr th:each="solicitud : ${solicitudes}">
+                                    <td th:text="${solicitud.id}"></td>
+                                    <td th:text="${solicitud.nombreSolicitante}"></td>
+                                    <td th:text="${solicitud.correoSolicitante}"></td>
+                                    <td th:if="${isAdmin}"
+                                        th:text="${solicitud.cliente != null ? solicitud.cliente.nombre : 'Sin cliente'}">
+                                    </td>
+                                    <td th:text="${solicitud.descripcion}"></td>
+                                    <td><span class="badge text-bg-light border" th:text="${solicitud.estado}"></span>
+                                    </td>
+                                    <td th:text="${solicitud.fecha}"></td>
+                                    <td th:text="${solicitud.consultoria.tipo}"></td>
+                                    <td class="text-end" th:if="${isAdmin}">
+                                        <div class="d-inline-flex gap-2">
+                                            <a class="btn btn-sm btn-outline-primary"
+                                                th:href="@{/vista/solicitudes/editar/{id}(id=${solicitud.id})}">Editar</a>
+                                            <form th:action="@{/vista/solicitudes/eliminar/{id}(id=${solicitud.id})}"
+                                                method="post" class="m-0"
+                                                onsubmit="return confirm('Seguro que deseas eliminar esta solicitud?');">
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
