@@ -2,44 +2,62 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Usuario;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-   public function index() {
-    return response()->json(Usuario::all());
-}
+    public function index()
+    {
+        return response()->json(Usuario::with('rol')->get());
+    }
 
-public function store(Request $request) {
-    $validated = $request->validate([
-        'nombre' => 'required|string|max:255',
-        'email' => 'required|email|unique:usuarios',
-        'password' => 'required|string|min:6',
-        'rol_id' => 'required|integer'
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required|string',
+            'email' => 'required|email|unique:usuarios',
+            'password' => 'required|min:6',
+            'rol_id' => 'required|exists:roles,id'
+        ]);
 
-    $usuario = Usuario::create($validated);
-    return response()->json($usuario);
-}
+        $usuario = Usuario::create([
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'rol_id' => $request->rol_id
+        ]);
 
+        return response()->json($usuario, 201);
+    }
 
-public function show($id) {
-    return response()->json(Usuario::findOrFail($id));
-}
+    public function show($id)
+    {
+        return response()->json(Usuario::with('rol')->findOrFail($id));
+    }
 
-public function update(Request $request, $id) {
-    $usuario = Usuario::findOrFail($id);
-    $usuario->update($request->all());
-    return response()->json($usuario);
-}
+    public function update(Request $request, $id)
+    {
+        $usuario = Usuario::findOrFail($id);
 
-public function destroy($id) {
-    Usuario::destroy($id);
-    return response()->json(['message' => 'Usuario eliminado']);
-}
+        $usuario->update([
+            'nombre' => $request->nombre ?? $usuario->nombre,
+            'email' => $request->email ?? $usuario->email,
+            'rol_id' => $request->rol_id ?? $usuario->rol_id,
+        ]);
 
+        if ($request->password) {
+            $usuario->password = Hash::make($request->password);
+            $usuario->save();
+        }
+
+        return response()->json($usuario);
+    }
+
+    public function destroy($id)
+    {
+        Usuario::destroy($id);
+        return response()->json(['message' => 'Usuario eliminado']);
+    }
 }

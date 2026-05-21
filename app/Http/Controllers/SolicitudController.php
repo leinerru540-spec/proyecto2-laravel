@@ -2,63 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
 
 class SolicitudController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return response()->json(Solicitud::with(['cliente', 'consultoria', 'usuario'])->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'correo_solicitante' => 'required|email',
+            'nombre_solicitante' => 'required|string',
+            'descripcion' => 'required|string',
+            'estado' => 'required|string',
+            'fecha' => 'required|date',
+            'cliente_id' => 'required|exists:clientes,id',
+            'consultoria_id' => 'required|exists:consultorias,id',
+            'usuario_id' => 'required|exists:usuarios,id'
+        ]);
+
+        $solicitud = Solicitud::create($request->all());
+        return response()->json($solicitud, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        return response()->json(Solicitud::with(['cliente', 'consultoria', 'usuario'])->findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->update($request->all());
+        return response()->json($solicitud);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        Solicitud::destroy($id);
+        return response()->json(['message' => 'Solicitud eliminada']);
     }
 }
+
