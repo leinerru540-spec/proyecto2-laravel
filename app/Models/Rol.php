@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuario;
 
-class Roles extends Model
+class Rol extends Model
 {
     protected $table = 'roles';
     protected $fillable = ['nombre', 'descripcion'];

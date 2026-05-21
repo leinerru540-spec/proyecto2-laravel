@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Roles;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 
 class RolController extends Controller
 {
     public function index()
     {
-        return response()->json(Roles::all());
+        return response()->json(Rol::all());
     }
 
     public function store(Request $request)
@@ -19,25 +19,25 @@ class RolController extends Controller
             'descripcion' => 'nullable|string'
         ]);
 
-        $rol = Roles::create($request->all());
+        $rol = Rol::create($request->all());
         return response()->json($rol, 201);
     }
 
     public function show($id)
     {
-        return response()->json(Roles::findOrFail($id));
+        return response()->json(Rol::findOrFail($id));
     }
 
     public function update(Request $request, $id)
     {
-        $rol = Roles::findOrFail($id);
+        $rol = Rol::findOrFail($id);
         $rol->update($request->all());
         return response()->json($rol);
     }
 
     public function destroy($id)
     {
-        Roles::destroy($id);
+        Rol::destroy($id);
         return response()->json(['message' => 'Rol eliminado']);
     }
 }
