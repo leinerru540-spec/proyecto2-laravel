@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('consultorias - 2026_05_21_031004_create_consultorias_table.php:14', function (Blueprint $table) {
+       Schema::create('consultorias', function (Blueprint $table) {
     $table->id();
     $table->string('descripcion');
     $table->string('tipo');

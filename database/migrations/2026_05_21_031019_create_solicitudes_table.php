@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('solicitudes - 2026_05_21_031019_create_solicitudes_table.php:14', function (Blueprint $table) {
+        Schema::create('solicitudes', function (Blueprint $table) {
     $table->id();
     $table->string('correo_solicitante');
     $table->string('nombre_solicitante');
