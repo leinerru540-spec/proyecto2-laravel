@@ -22,8 +22,16 @@
                 <span>Consultoria Legal</span>
             </a>
             <div class="d-flex gap-2">
-                <a class="btn btn-outline-primary" href="/admin">Panel admin</a>
-                <a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a>
+                <ul class="navbar-nav ms-auto gap-lg-2">
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/clientes">Clientes</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link"
+                            href="/consultorias">Consultorias</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+
+                    <li class="nav-item"><a class="btn btn-outline-primary" href="/admin">Panel Admin</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -39,7 +47,7 @@
                             <h1 class="h3 mb-1 page-title">Usuarios registrados</h1>
                             <p class="text-secondary mb-0">Administra las cuentas que pueden ingresar al sistema.</p>
                         </div>
-                        <a class="btn btn-primary" href="/vista/usuarios/nuevo">Nuevo usuario</a>
+                        <a class="btn btn-primary" href="/usuarios/nuevo">Nuevo usuario</a>
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>

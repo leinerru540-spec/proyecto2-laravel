@@ -14,6 +14,11 @@ class UsuarioController extends Controller
         return response()->json(Usuario::with('rol')->get(), 200);
     }
 
+    public function create()
+    {
+        return view('usuarios.usuario-form', ['usuario' => null]);
+    }
+
     // Crear usuario
     public function store(Request $request)
     {
@@ -21,7 +26,7 @@ class UsuarioController extends Controller
             'nombre' => $request->nombre,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'rol_id' => $request->rol_id
+            'rol_id' => 3 // Asignar rol por defecto (cliente)
         ]);
 
         return response()->json($usuario, 201);

@@ -27,14 +27,14 @@
             </button>
             <div class="collapse navbar-collapse" id="solicitudesNav">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/vista/clientes">Clientes</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/clientes">Clientes</a></li>
                     <li class="nav-item" th:if="${isAdmin}"><a class="nav-link"
-                            href="/vista/consultorias">Consultorias</a></li>
-                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/vista/usuarios">Usuarios</a></li>
-                    <li class="nav-item" th:unless="${isAdmin}"><a class="nav-link"
-                            href="/vista/servicios">Servicios</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/vista/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a></li>
+                            href="/consultorias">Consultorias</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                    
+                    <li class="nav-item"><a class="btn btn-outline-primary" href="/admin">Panel Admin</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -59,11 +59,9 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones rapidas</h2>
                             <div class="d-grid gap-2">
-                                <a href="/vista/solicitudes/nueva" class="btn btn-primary">Nueva solicitud</a>
-                                <a th:if="${isAdmin}" href="/vista/consultorias" class="btn btn-outline-secondary">Ver
+                                <a href="/solicitudes/nueva" class="btn btn-primary">Nueva solicitud</a>
+                                <a th:if="${isAdmin}" href="/consultorias" class="btn btn-outline-secondary">Ver
                                     consultorias</a>
-                                <a th:unless="${isAdmin}" href="/vista/servicios" class="btn btn-outline-secondary">Ver
-                                    servicios</a>
                             </div>
                         </div>
                     </div>
@@ -88,7 +86,7 @@
                             <p class="text-secondary mb-0">Seguimiento centralizado para solicitudes de clientes y
                                 servicios contratados.</p>
                         </div>
-                        <a class="btn btn-primary" href="/vista/solicitudes/nueva">Nueva solicitud</a>
+                        <a class="btn btn-primary" href="/solicitudes/nueva">Nueva solicitud</a>
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>

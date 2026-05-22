@@ -22,11 +22,12 @@
             </button>
             <div class="collapse navbar-collapse" id="consultoriasNav">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="/vista/clientes">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/vista/consultorias">Consultorias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/vista/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/vista/usuarios">Usuarios</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/consultorias">Consultorias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-primary" href="/admin">Panel Admin</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -47,8 +48,8 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones rapidas</h2>
                             <div class="d-grid gap-2">
-                                <a href="/vista/consultorias/nueva" class="btn btn-primary">Nueva consultoria</a>
-                                <a href="/vista/clientes" class="btn btn-outline-secondary">Explorar clientes</a>
+                                <a href="/consultorias/nueva" class="btn btn-primary">Nueva consultoria</a>
+                                <a href="/clientes" class="btn btn-outline-secondary">Explorar clientes</a>
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                             <h2 class="h4 mb-1 section-title">Listado de consultorias</h2>
                             <p class="text-secondary mb-0">Mantiene actualizado el catalogo de servicios visibles para los clientes.</p>
                         </div>
-                        <a class="btn btn-primary" href="/vista/consultorias/nueva">Nueva consultoria</a>
+                        <a class="btn btn-primary" href="/consultorias/nueva">Nueva consultoria</a>
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -91,8 +92,8 @@
                                     <td th:text="${consultoria.descripcion != null ? consultoria.descripcion : 'Sin descripcion'}"></td>
                                     <td class="text-end">
                                         <div class="d-inline-flex gap-2">
-                                            <a class="btn btn-sm btn-outline-primary" th:href="@{/vista/consultorias/editar/{id}(id=${consultoria.id})}">Editar</a>
-                                            <form th:action="@{/vista/consultorias/eliminar/{id}(id=${consultoria.id})}" method="post" class="m-0"
+                                            <a class="btn btn-sm btn-outline-primary" th:href="@{/consultorias/editar/{id}(id=${consultoria.id})}">Editar</a>
+                                            <form th:action="@{/consultorias/eliminar/{id}(id=${consultoria.id})}" method="post" class="m-0"
                                                 onsubmit="return confirm('Seguro que deseas eliminar esta consultoria?');">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                                             </form>

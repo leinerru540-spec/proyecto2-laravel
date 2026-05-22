@@ -18,7 +18,7 @@
                 <span>Consultoria Legal</span>
             </a>
             <div class="d-flex gap-2">
-                <a class="btn btn-outline-primary" href="/vista/usuarios">Volver a usuarios</a>
+                <a class="btn btn-outline-primary" href="/usuarios">Volver a usuarios</a>
                 <a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a>
             </div>
         </div>
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-12 d-flex gap-2 pt-2">
                                     <button type="submit" class="btn btn-primary">Guardar usuario</button>
-                                    <a href="/vista/usuarios" class="btn btn-outline-secondary">Cancelar</a>
+                                    <a href="/usuarios" class="btn btn-outline-secondary">Cancelar</a>
                                 </div>
                             </form>
                         </div>

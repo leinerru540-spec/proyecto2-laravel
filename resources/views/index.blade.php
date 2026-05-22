@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/index.css" rel="stylesheet">
 </head>
-
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
@@ -177,11 +175,10 @@
             <div class="container">
                 <div class="row align-items-center g-4">
                     <div class="col-lg-8">
-                        <span class="badge text-bg-light mb-3">Acceso por rol</span>
+                        <span class="badge text-bg-light mb-3">{{ __('messages.access_by_role') }}</span>
                         <h2 class="h3 mb-3">{{ __('messages.access_by_role') }}</h2>
                         <p class="mb-0">
-                            El inicio de sesion identifica si la cuenta corresponde a administrador o cliente y redirige
-                            al panel correspondiente para mantener el flujo simple y ordenado.
+                            {{ __('messages.access_by_role_desc') }}
                         </p>
                     </div>
                     <div class="col-lg-4">
@@ -207,5 +204,4 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

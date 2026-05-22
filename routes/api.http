@@ -9,9 +9,9 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "nombre": "User",
-  "email": "user@demo.com",
-  "password": "user123",
+  "nombre": "Admin",
+  "email": "admin@demo.com",
+  "password": "admin123",
   "rol_id": 2
 }
 
@@ -21,33 +21,33 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email": "admin@demo.com",
-  "password": "admin123"
+  "email": "user@demo.com",
+  "password": "user123"
 }
 
 //Bloque de endpoints para roles
 
 ### Listar roles (requiere token)
 GET {{baseUrl}}/roles
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
 
 Accept: application/json
 
 ### Crear rol
 POST http://localhost:8000/api/roles
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
 Content-Type: application/json
 Accept: application/json
 
 {
-  "nombre": "Cliente",
+  "nombre": "Prueba",
   "descripcion": "Acceso limitado a funcionalidades de cliente"
 }
 
 
 ### Obtener rol por ID (requiere token)
 GET {{baseUrl}}/roles/3
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
 Accept: application/json
 
 ### Actualizar rol por ID (requiere token)
@@ -69,12 +69,12 @@ Accept: application/json
 
 ### Listar usuarios (requiere token)
 GET {{baseUrl}}/usuarios
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
 Accept: application/json
 
 ### Obtener usuario por ID (requiere token)
-GET {{baseUrl}}/usuarios/2
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+GET {{baseUrl}}/usuarios/1
+Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
 Accept: application/json
 
 ### Actualizar usuario por ID (requiere token)

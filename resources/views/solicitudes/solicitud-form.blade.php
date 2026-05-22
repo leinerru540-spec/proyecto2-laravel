@@ -18,7 +18,7 @@
                 <span>Consultoria Legal</span>
             </a>
             <div class="d-flex gap-2">
-                <a class="btn btn-outline-primary" href="/vista/solicitudes">Volver a solicitudes</a>
+                <a class="btn btn-outline-primary" href="/solicitudes">Volver a solicitudes</a>
                 <a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a>
             </div>
         </div>

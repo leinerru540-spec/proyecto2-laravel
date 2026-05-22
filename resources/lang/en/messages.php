@@ -8,6 +8,7 @@ return [
  ## Navigation Links
  'link_mision' => 'Mission',
  'link_services' => 'Services',
+ 'link_vision' => 'Vision',
  'link_access' => 'Access',
  'link_createAccount' => 'Create Account',
  'link_login' => 'Login',
@@ -41,11 +42,14 @@ return [
  'class_previous' => 'Previous',
  'class_next' => 'Next',
  'online_applications' => 'Online Applications',
+'online_applications_desc' => 'Clients can submit their requests online, providing necessary information for efficient processing and follow-up.',
  'administration_panel' => 'Administration Panel',
  'administration_panel_desc' => 'Administrators manage clients, users, consultancies, and statuses',
  'centralized_tracking' => 'Centralized Tracking',
  'centralized_tracking_desc' => 'Each procedure retains date, description, service requested and current status',
 
+ 'access_by_role' => 'Access by Role',
+ 'access_by_role_desc' => 'Login identifies whether the account corresponds to administrator or customer and redirects to the corresponding panel to keep the flow simple and tidy.',
 
 'footer_desc' => 'Legal Consulting | Management Platform - Developed by [Group: Jefferson & Leiner]',
 

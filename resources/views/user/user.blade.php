@@ -22,9 +22,9 @@
             </button>
             <div class="collapse navbar-collapse" id="userNav">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="/vista/servicios">Servicios</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/vista/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/perfil">Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -46,9 +46,8 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Accion disponible</h2>
                             <div class="d-grid gap-2">
-                                <a href="/vista/servicios" class="btn btn-outline-primary">Ver servicios</a>
-                                <a href="/vista/solicitudes/nueva" class="btn btn-primary">Nueva solicitud</a>
-                                <a href="/vista/solicitudes" class="btn btn-outline-secondary">Ver solicitudes</a>
+                                <a href="/solicitudes/nueva" class="btn btn-primary">Nueva solicitud</a>
+                                <a href="/solicitudes" class="btn btn-outline-secondary">Ver solicitudes</a>
                             </div>
                         </div>
                     </div>
@@ -71,8 +70,8 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="d-grid gap-2">
-                                <a class="btn btn-primary btn-lg" href="/vista/servicios">Ver servicios</a>
-                                <a class="btn btn-outline-primary btn-lg" href="/vista/solicitudes">Abrir solicitudes</a>
+                                <a class="btn btn-primary btn-lg" href="/servicios">Ver servicios</a>
+                                <a class="btn btn-outline-primary btn-lg" href="/solicitudes">Abrir solicitudes</a>
                             </div>
                         </div>
                     </div>

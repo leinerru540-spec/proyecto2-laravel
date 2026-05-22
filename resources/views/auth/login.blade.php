@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +12,17 @@
     <link href="/css/Style.css" rel="stylesheet">
     <link href="/css/login.css" rel="stylesheet">
 </head>
+
 <body class="login-page">
     <main class="py-4 py-lg-5">
         <div class="container login-shell d-flex align-items-center justify-content-center">
             <div class="login-card-wrap w-100">
                 <section class="login-card p-4 p-lg-5">
+                    <a class="btn btn-outline-primary" href="/">Ir al inicio</a>
                     <div class="d-flex align-items-center gap-3 mb-4">
                         <div class="login-accent">
                             <img src="/images/logo.png" alt="Logo de Consultoria Legal" class="login-logo">
+
                         </div>
                         <div>
                             <span class="badge text-bg-primary mb-2">Acceso administrador o cliente</span>
@@ -30,24 +34,61 @@
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
                     <div id="statusMessage" class="alert status-box" role="alert"></div>
 
-                    <form id="loginForm" class="d-grid gap-3">
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                    <form id="loginForm"
+                        action="/login"
+                        method="POST"
+                        class="d-grid gap-3">
+
+                        @csrf
+
                         <div>
-                            <label for="email" class="form-label fw-semibold">Correo electronico</label>
-                            <input id="email" name="email" type="email" class="form-control form-control-lg" placeholder="nombre@empresa.com" required>
+                            <label for="email" class="form-label fw-semibold">
+                                Correo electronico
+                            </label>
+
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                class="form-control form-control-lg"
+                                placeholder="nombre@empresa.com"
+                                required>
                         </div>
 
                         <div>
-                            <label for="password" class="form-label fw-semibold">Contrasena</label>
-                            <input id="password" name="password" type="password" class="form-control form-control-lg" placeholder="Ingresa tu contrasena" required>
+                            <label for="password" class="form-label fw-semibold">
+                                Contrasena
+                            </label>
+
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                class="form-control form-control-lg"
+                                placeholder="Ingresa tu contrasena"
+                                required>
                         </div>
 
                         <div class="d-flex flex-column flex-sm-row justify-content-end gap-2">
-                            <a href="/registro" class="text-decoration-none fw-semibold text-primary">Crear cuenta</a>
+                            <a href="/registro"
+                                class="text-decoration-none fw-semibold text-primary">
+
+                                Crear cuenta
+
+                            </a>
                         </div>
 
-                        <button id="submitButton" type="submit" class="btn btn-primary btn-lg btn-login">
+                        <button
+                            id="submitButton"
+                            type="submit"
+                            class="btn btn-primary btn-lg btn-login">
+
                             Entrar al sistema
+
                         </button>
+
                     </form>
 
                     <section class="login-service-panel mt-4">
@@ -99,4 +140,5 @@
     <script src="/js/loginController.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

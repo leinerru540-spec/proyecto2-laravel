@@ -22,11 +22,11 @@
             </button>
             <div class="collapse navbar-collapse" id="adminNav">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item"><a class="nav-link" href="/vista/clientes">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/vista/consultorias">Consultorias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/vista/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/vista/usuarios">Usuarios</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/consultorias">Consultorias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
                 </ul>
             </div>
         </div>
@@ -48,10 +48,10 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones principales</h2>
                             <div class="d-grid gap-2">
-                                <a href="/vista/clientes/nuevo" class="btn btn-primary">Crear cliente</a>
-                                <a href="/vista/consultorias/nueva" class="btn btn-outline-primary">Crear consultoria</a>
-                                <a href="/vista/solicitudes/nueva" class="btn btn-outline-primary">Crear solicitud</a>
-                                <a href="/vista/usuarios/nuevo" class="btn btn-outline-secondary">Crear usuario</a>
+                                <a href="/clientes/nuevo" class="btn btn-primary">Crear cliente</a>
+                                <a href="/consultorias/nueva" class="btn btn-outline-primary">Crear consultoria</a>
+                                <a href="/solicitudes/nueva" class="btn btn-outline-primary">Crear solicitud</a>
+                                <a href="/usuarios/nuevo" class="btn btn-outline-secondary">Crear usuario</a>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         <div class="card-body p-4">
                             <h2 class="h5 section-title">Clientes</h2>
                             <p class="text-secondary">Gestiona empresas, contactos y datos comerciales.</p>
-                            <a class="btn btn-outline-primary w-100" href="/vista/clientes">Abrir modulo</a>
+                            <a class="btn btn-outline-primary w-100" href="/clientes">Abrir modulo</a>
                         </div>
                     </article>
                 </div>
@@ -77,7 +77,7 @@
                         <div class="card-body p-4">
                             <h2 class="h5 section-title">Consultorias</h2>
                             <p class="text-secondary">Revisa servicios, estados y clientes asociados.</p>
-                            <a class="btn btn-outline-primary w-100" href="/vista/consultorias">Abrir modulo</a>
+                            <a class="btn btn-outline-primary w-100" href="/consultorias">Abrir modulo</a>
                         </div>
                     </article>
                 </div>
@@ -86,7 +86,7 @@
                         <div class="card-body p-4">
                             <h2 class="h5 section-title">Solicitudes</h2>
                             <p class="text-secondary">Administra solicitudes y seguimiento del proceso.</p>
-                            <a class="btn btn-outline-primary w-100" href="/vista/solicitudes">Abrir modulo</a>
+                            <a class="btn btn-outline-primary w-100" href="/solicitudes">Abrir modulo</a>
                         </div>
                     </article>
                 </div>
@@ -96,7 +96,7 @@
                             <h2 class="h5 section-title">Usuarios y roles</h2>
                             <p class="text-secondary">Consulta usuarios registrados y roles disponibles.</p>
                             <div class="d-grid gap-2">
-                                <a class="btn btn-outline-primary" href="/vista/usuarios">Usuarios</a>
+                                <a class="btn btn-outline-primary" href="/usuarios">Usuarios</a>
                             </div>
                         </div>
                     </article>
