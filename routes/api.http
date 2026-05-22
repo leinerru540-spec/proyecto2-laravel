@@ -1,0 +1,231 @@
+@baseUrl = http://localhost:8000/api
+@token = {{token}}
+@clienteId = 1
+@consultoriaId = 1
+@solicitudId = 1
+### Crear usuario 
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nombre": "User",
+  "email": "user@demo.com",
+  "password": "user123",
+  "rol_id": 2
+}
+
+### Login para obtener token
+POST {{baseUrl}}/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "admin@demo.com",
+  "password": "admin123"
+}
+
+//Bloque de endpoints para roles
+
+### Listar roles (requiere token)
+GET {{baseUrl}}/roles
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+
+Accept: application/json
+
+### Crear rol
+POST http://localhost:8000/api/roles
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nombre": "Cliente",
+  "descripcion": "Acceso limitado a funcionalidades de cliente"
+}
+
+
+### Obtener rol por ID (requiere token)
+GET {{baseUrl}}/roles/3
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Actualizar rol por ID (requiere token)
+PUT {{baseUrl}}/roles/3
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "descripcion": "Acceso completo"
+}
+
+### Eliminar rol por ID (requiere token)
+DELETE {{baseUrl}}/roles/4
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+//Bloque de endpoints para usuarios
+
+### Listar usuarios (requiere token)
+GET {{baseUrl}}/usuarios
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Obtener usuario por ID (requiere token)
+GET {{baseUrl}}/usuarios/2
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Actualizar usuario por ID (requiere token)
+PUT {{baseUrl}}/usuarios/1
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nombre": "Admin Actualizado",
+  "email": "admin@demo.com",
+  "password": "admin123",
+  "rol_id": 2
+}
+
+### Eliminar usuario por ID (requiere token)
+DELETE {{baseUrl}}/usuarios/2
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+//Bloque de endpoints para clientes
+
+
+
+### Listar clientes
+GET {{baseUrl}}/clientes
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Crear cliente
+POST {{baseUrl}}/clientes
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nombre": "Maria López",
+  "correo": "maria@empresa.com",
+  "telefono": "6453-9876",
+  "empresa": "Empresa Meco"
+}
+
+### Obtener cliente por ID
+GET {{baseUrl}}/clientes/1
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Actualizar cliente
+PUT {{baseUrl}}/clientes/1
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "nombre": "Juan Pérez Actualizado",
+  "correo": "juan@empresa.com",
+  "telefono": "6287-5431",
+  "empresa": "Empresa Demo Actualizada"
+}
+
+### Eliminar cliente
+DELETE {{baseUrl}}/clientes/2
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+// Bloque de Consultorias
+
+### Listar consultorias
+GET {{baseUrl}}/consultorias
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Crear consultoría
+POST {{baseUrl}}/consultorias
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "descripcion": "Consultoría en procesos",
+  "tipo": "Ilegal"
+}
+
+### Obtener consultoría por ID
+GET {{baseUrl}}/consultorias/2
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Actualizar consultoría
+PUT {{baseUrl}}/consultorias/1
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "descripcion": "Consultoría en procesos legales actualizada",
+  "tipo": "Financiera"
+}
+
+### Eliminar consultoría
+DELETE {{baseUrl}}/consultorias/2
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+// Bloque de Solicitudes
+
+### Listar solicitudes
+GET {{baseUrl}}/solicitudes
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Crear solicitud
+POST {{baseUrl}}/solicitudes
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "correo_solicitante": "Maria@demo.com",
+  "nombre_solicitante": "Maria López",
+  "descripcion": "Solicitud de asesoría en procesos legales",
+  "fecha": "2026-05-20",
+  "estado": "Finalizado",
+  "cliente_id": 1,
+  "consultoria_id": 1,
+  "usuario_id": 1
+}
+
+### Obtener solicitud por ID
+GET {{baseUrl}}/solicitudes/1
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json
+
+### Actualizar solicitud
+PUT {{baseUrl}}/solicitudes/1
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Content-Type: application/json
+Accept: application/json
+
+{
+  "correo_solicitante": "cliente@demo.com",
+  "nombre_solicitante": "Juan Pérez Actualizado",
+  "descripcion": "Solicitud actualizada: asesoría financiera",
+  "fecha": "2026-05-23",
+  "estado": "Aprobada",
+  "cliente_id": 1,
+  "consultoria_id": 1,
+  "usuario_id": 1
+}
+
+### Eliminar solicitud
+DELETE {{baseUrl}}/solicitudes/2
+Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Accept: application/json

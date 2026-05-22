@@ -8,20 +8,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
+    // Listar usuarios
     public function index()
     {
-        return response()->json(Usuario::with('rol')->get());
+        return response()->json(Usuario::with('rol')->get(), 200);
     }
 
+    // Crear usuario
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|string',
-            'email' => 'required|email|unique:usuarios',
-            'password' => 'required|min:6',
-            'rol_id' => 'required|exists:roles,id'
-        ]);
-
         $usuario = Usuario::create([
             'nombre' => $request->nombre,
             'email' => $request->email,
@@ -32,32 +27,30 @@ class UsuarioController extends Controller
         return response()->json($usuario, 201);
     }
 
+    // Mostrar usuario por ID
     public function show($id)
     {
-        return response()->json(Usuario::with('rol')->findOrFail($id));
+        return response()->json(Usuario::with('rol')->findOrFail($id), 200);
     }
 
+    // Actualizar usuario
     public function update(Request $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
-
         $usuario->update([
-            'nombre' => $request->nombre ?? $usuario->nombre,
-            'email' => $request->email ?? $usuario->email,
-            'rol_id' => $request->rol_id ?? $usuario->rol_id,
+            'nombre' => $request->nombre,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'rol_id' => $request->rol_id
         ]);
 
-        if ($request->password) {
-            $usuario->password = Hash::make($request->password);
-            $usuario->save();
-        }
-
-        return response()->json($usuario);
+        return response()->json($usuario, 200);
     }
 
+    // Eliminar usuario
     public function destroy($id)
     {
         Usuario::destroy($id);
-        return response()->json(['message' => 'Usuario eliminado']);
+        return response()->json(null, 204);
     }
 }

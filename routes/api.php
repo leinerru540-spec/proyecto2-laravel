@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\ClienteController;
@@ -8,21 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('usuarios', UsuarioController::class);
-Route::apiResource('roles', RolController::class);
-Route::apiResource('clientes', ClienteController::class);
-Route::apiResource('consultorias', ConsultoriaController::class);
-Route::apiResource('solicitudes', SolicitudController::class);
-
-Route::middleware('auth:sanctum')->group(function (){
-    Route::apiResource('usuarios', UsuarioController::class);
-    Route::apiResource('roles', RolController::class);
-    Route::apiResource('clientes', ClienteController::class);
-    Route::apiResource('consultorias', ConsultoriaController::class);
-    Route::apiResource('solicitudes', SolicitudController::class);
-});
-
-Route::post('/login', function (Request $request){
+// Rutas públicas
+Route::post('/login', function (Request $request) {
     $user = \App\Models\Usuario::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
@@ -32,6 +20,16 @@ Route::post('/login', function (Request $request){
     $token = $user->createToken('token')->plainTextToken;
 
     return response()->json(['token' => $token]);
-    
 });
 
+// Registro público de usuarios
+Route::post('/usuarios', [UsuarioController::class, 'store']);
+
+// Rutas protegidas con Sanctum
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('usuarios', UsuarioController::class)->except(['store']);
+    Route::apiResource('roles', RolController::class);
+    Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('consultorias', ConsultoriaController::class);
+    Route::apiResource('solicitudes', SolicitudController::class);
+});
