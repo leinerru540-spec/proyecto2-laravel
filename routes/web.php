@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 // Ruta inicial → login
 Route::get('/', function () {
     return view('auth.login');
-});
+})->name('login');
 
 // Registro
 Route::get('/registro', function () {
@@ -46,5 +46,4 @@ Route::get('/admin', function () {
 Route::get('/user', function () {
     return view('user.user');
 });
-
 
