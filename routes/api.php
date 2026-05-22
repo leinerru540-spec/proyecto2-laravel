@@ -4,9 +4,34 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ConsultoriaController;
 use App\Http\Controllers\SolicitudController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 Route::apiResource('usuarios', UsuarioController::class);
 Route::apiResource('roles', RolController::class);
 Route::apiResource('clientes', ClienteController::class);
 Route::apiResource('consultorias', ConsultoriaController::class);
 Route::apiResource('solicitudes', SolicitudController::class);
+
+Route::middleware('auth:sanctum')->group(function (){
+    Route::apiResource('usuarios', UsuarioController::class);
+    Route::apiResource('roles', RolController::class);
+    Route::apiResource('clientes', ClienteController::class);
+    Route::apiResource('consultorias', ConsultoriaController::class);
+    Route::apiResource('solicitudes', SolicitudController::class);
+});
+
+Route::post('/login', function (Request $request){
+    $user = \App\Models\Usuario::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return response()->json(['message' => 'Credenciales inválidas'], 401);
+    }
+
+    $token = $user->createToken('token')->plainTextToken;
+
+    return response()->json(['token' => $token]);
+    
+});
+

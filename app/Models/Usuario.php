@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Usuario extends Model
+class Usuario extends Authenticatable
 {
+
+    use HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'usuarios';
     protected $fillable = ['nombre', 'email', 'password', 'rol_id'];
 
@@ -19,4 +25,3 @@ class Usuario extends Model
         return $this->hasMany(Solicitud::class, 'usuario_id');
     }
 }
-
