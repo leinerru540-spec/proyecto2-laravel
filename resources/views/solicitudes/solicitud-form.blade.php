@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/Style.css" rel="stylesheet">
 </head>
+
 <body class="form-page">
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
@@ -19,7 +21,6 @@
             </a>
             <div class="d-flex gap-2">
                 <a class="btn btn-outline-primary" href="/solicitudes">Volver a solicitudes</a>
-                <a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a>
             </div>
         </div>
     </nav>
@@ -34,60 +35,190 @@
                             <h1 class="h2 mb-3 page-title" th:text="${formTitle}">Nueva solicitud</h1>
                             <p class="text-secondary mb-4">Registra los datos del solicitante y la consultoria que desea.</p>
 
-                            <form th:action="${formAction}" th:object="${solicitudForm}" method="post" class="row g-3">
-                                <div class="col-12" th:if="${isAdmin and !isEdit}">
-                                    <label for="clienteId" class="form-label fw-semibold">Cliente</label>
-                                    <select id="clienteId" th:field="*{clienteId}" class="form-select" required>
-                                        <option value="">Selecciona un cliente</option>
-                                        <option th:each="cliente : ${clientes}" th:value="${cliente.id}" th:text="${cliente.nombre + ' - ' + cliente.correo}"></option>
-                                    </select>
-                                </div>
-                                <div class="col-12" th:if="${isAdmin and isEdit}">
-                                    <label class="form-label fw-semibold">Cliente</label>
-                                    <div class="form-control bg-light" th:text="${selectedCliente != null ? selectedCliente.nombre + ' - ' + selectedCliente.correo : solicitudForm.nombreSolicitante + ' - ' + solicitudForm.correoSolicitante}">Cliente seleccionado</div>
-                                </div>
-                                <input th:if="${!isAdmin or isEdit}" th:field="*{clienteId}" type="hidden">
+                            <form action="{{ isset($solicitudForm->id)
+    ? route('solicitudes.update', $solicitudForm->id)
+    : route('solicitudes.store') }}"
+                                method="POST"
+                                class="row g-4">
 
-                                <div class="col-md-6" th:unless="${isAdmin}">
-                                    <label for="nombreSolicitante" class="form-label fw-semibold">Nombre del solicitante</label>
-                                    <input id="nombreSolicitante" th:field="*{nombreSolicitante}" class="form-control" required>
-                                </div>
-                                <div class="col-md-6" th:unless="${isAdmin}">
-                                    <label for="correoSolicitante" class="form-label fw-semibold">Correo electronico</label>
-                                    <input id="correoSolicitante" th:field="*{correoSolicitante}" type="email" class="form-control" required>
-                                </div>
-                                <input th:if="${isAdmin}" th:field="*{nombreSolicitante}" type="hidden">
-                                <input th:if="${isAdmin}" th:field="*{correoSolicitante}" type="hidden">
-                                <div class="col-md-6" th:if="${isAdmin}">
-                                    <label for="estado" class="form-label fw-semibold">Estado</label>
-                                    <select id="estado" th:field="*{estado}" class="form-select" required>
-                                        <option value="">Selecciona un estado</option>
-                                        <option th:each="estado : ${estadosSolicitud}" th:value="${estado.name()}" th:text="${estado.name()}"></option>
-                                    </select>
-                                </div>
-                                <input th:unless="${isAdmin}" th:field="*{estado}" type="hidden">
+                                @csrf
 
-                                <div class="col-md-6" th:if="${isAdmin}">
-                                    <label for="fecha" class="form-label fw-semibold">Fecha</label>
-                                    <input id="fecha" th:field="*{fecha}" type="date" class="form-control" required>
-                                </div>
-                                <input th:unless="${isAdmin}" th:field="*{fecha}" type="hidden">
-                                <input th:field="*{usuarioId}" type="hidden">
+                                @if(isset($solicitudForm->id))
+                                @method('PUT')
+                                @endif
 
+                                {{-- CLIENTE --}}
                                 <div class="col-12">
-                                    <label for="consultoriaId" class="form-label fw-semibold">Consultoria que desea</label>
-                                    <select id="consultoriaId" th:field="*{consultoriaId}" class="form-select" required>
-                                        <option value="">Selecciona una consultoria</option>
-                                        <option th:each="consultoria : ${consultorias}" th:value="${consultoria.id}" th:text="${consultoria.tipo}"></option>
+
+                                    <label class="form-label fw-semibold">
+                                        Cliente
+                                    </label>
+
+                                    @if(Auth::user()->rol_id == 2)
+
+                                    {{-- ADMIN --}}
+                                    <select name="cliente_id"
+                                        class="form-select"
+                                        required>
+
+                                        <option value="">
+                                            Selecciona un cliente
+                                        </option>
+
+                                        @foreach($clientes as $cliente)
+
+                                        <option value="{{ $cliente->id }}"
+                                            @selected(($solicitudForm->cliente_id ?? '') == $cliente->id)>
+
+                                            {{ $cliente->nombre }}
+                                            -
+                                            {{ $cliente->correo }}
+
+                                        </option>
+
+                                        @endforeach
+
+                                    </select>
+
+                                    @else
+
+                                    {{-- CLIENTE/USUARIO NORMAL --}}
+                                    <div class="form-control bg-light py-2">
+
+                                        {{ auth()->user()->nombre }}
+
+                                    </div>
+
+                                    <input type="hidden"
+                                        name="cliente_id"
+                                        value="{{ auth()->user()->cliente->id ?? '' }}">
+
+                                    @endif
+
+                                </div>
+                                {{-- ESTADO --}}
+                                <div class="col-md-6">
+
+                                    <label class="form-label fw-semibold">
+                                        Estado
+                                    </label>
+
+                                    @if(Auth::user()->rol_id == 2)
+
+                                    <select name="estado"
+                                        class="form-select"
+                                        required>
+
+                                        <option value="">
+                                            Selecciona un estado
+                                        </option>
+
+                                        @foreach($estadosSolicitud as $estado)
+
+                                        <option value="{{ $estado }}"
+                                            @selected(($solicitudForm->estado ?? '') == $estado)>
+
+                                            {{ $estado }}
+
+                                        </option>
+
+                                        @endforeach
+
+                                    </select>
+
+                                    @else
+
+                                    <input type="text"
+                                        class="form-control"
+                                        value="{{ $solicitudForm->estado ?? '' }}"
+                                        readonly>
+
+                                    <input type="hidden"
+                                        name="estado"
+                                        value="{{ $solicitudForm->estado ?? '' }}">
+
+                                    @endif
+
+                                </div>
+
+                                {{-- FECHA --}}
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">
+                                        Fecha
+                                    </label>
+
+                                    @if(Auth::user()->rol_id == 2)
+                                    <input type="date"
+                                        name="fecha"
+                                        value="{{ $solicitudForm->fecha ?? '' }}"
+                                        class="form-control"
+                                        required>
+                                    @else
+                                    <input type="date"
+                                        name="fecha"
+                                        value="{{ $solicitudForm->fecha ?? '' }}"
+                                        class="form-control bg-light"
+                                        readonly>
+                                    <input type="hidden"
+                                        name="fecha"
+                                        value="{{ $solicitudForm->fecha ?? '' }}">
+                                    @endif
+                                </div>
+
+                                {{-- CONSULTORÍA --}}
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">
+                                        Consultoría que desea
+                                    </label>
+
+                                    <select name="consultoria_id"
+                                        class="form-select"
+                                        required>
+
+                                        <option value="">
+                                            Selecciona una consultoría
+                                        </option>
+
+                                        @foreach($consultorias as $consultoria)
+                                        <option value="{{ $consultoria->id }}"
+                                            @selected(($solicitudForm->consultoria_id ?? '') == $consultoria->id)>
+                                            {{ $consultoria->tipo }}
+                                        </option>
+                                        @endforeach
+
                                     </select>
                                 </div>
+
+                                {{-- DESCRIPCIÓN --}}
                                 <div class="col-12">
-                                    <label for="descripcion" class="form-label fw-semibold">Descripcion de la solicitud</label>
-                                    <textarea id="descripcion" th:field="*{descripcion}" class="form-control" rows="4" required></textarea>
+                                    <label class="form-label fw-semibold">
+                                        Descripción de la solicitud
+                                    </label>
+
+                                    <textarea name="descripcion"
+                                        rows="5"
+                                        class="form-control"
+                                        required>{{ $solicitudForm->descripcion ?? '' }}</textarea>
                                 </div>
-                                <div class="col-12 d-flex gap-2 pt-2">
-                                    <button type="submit" class="btn btn-primary" th:text="${isAdmin and isEdit ? 'Actualizar solicitud' : 'Enviar solicitud'}">Guardar solicitud</button>
-                                    <a href="/vista/solicitudes" class="btn btn-outline-secondary">Cancelar</a>
+
+                                {{-- USUARIO --}}
+                                <input type="hidden"
+                                    name="usuario_id"
+                                    value="{{ auth()->user()->id ?? ''}}">
+
+                                {{-- BOTONES --}}
+                                <div class="col-12 d-flex justify-content-end gap-2 pt-3">
+
+                                    <a href="/solicitudes"
+                                        class="btn btn-outline-secondary px-4">
+                                        Cancelar
+                                    </a>
+
+                                    <button type="submit"
+                                        class="btn btn-primary px-4">
+                                        Guardar solicitud
+                                    </button>
+
                                 </div>
                             </form>
                         </div>
@@ -99,4 +230,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

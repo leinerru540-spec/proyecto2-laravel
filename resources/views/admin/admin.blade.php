@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/Style.css" rel="stylesheet">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
@@ -26,7 +28,13 @@
                     <li class="nav-item"><a class="nav-link" href="/consultorias">Consultorias</a></li>
                     <li class="nav-item"><a class="nav-link" href="/solicitudes">Solicitudes</a></li>
                     <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
+                    <form action="{{ url('/logout') }}" method="POST">
+                        @csrf
+
+                        <button type="submit" class="btn btn-outline-danger">
+                            Cerrar sesión
+                        </button>
+                    </form>
                 </ul>
             </div>
         </div>
@@ -48,10 +56,10 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones principales</h2>
                             <div class="d-grid gap-2">
-                                <a href="/clientes/nuevo" class="btn btn-primary">Crear cliente</a>
-                                <a href="/consultorias/nueva" class="btn btn-outline-primary">Crear consultoria</a>
-                                <a href="/solicitudes/nueva" class="btn btn-outline-primary">Crear solicitud</a>
-                                <a href="/usuarios/nuevo" class="btn btn-outline-secondary">Crear usuario</a>
+                                <a href="/clientes/create" class="btn btn-primary">Crear cliente</a>
+                                <a href="/consultorias/create" class="btn btn-outline-primary">Crear consultoria</a>
+                                <a href="/solicitudes/create" class="btn btn-outline-primary">Crear solicitud</a>
+                                <a href="/usuarios/create" class="btn btn-outline-secondary">Crear usuario</a>
                             </div>
                         </div>
                     </div>
@@ -107,4 +115,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

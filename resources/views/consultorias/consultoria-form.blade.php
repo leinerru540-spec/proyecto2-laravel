@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,6 @@
             </a>
             <div class="d-flex gap-2">
                 <a class="btn btn-outline-primary" href="/consultorias">Volver a consultorias</a>
-                <a class="btn btn-outline-danger" href="/auth/logout">Cerrar sesion</a>
             </div>
         </div>
     </nav>
@@ -38,67 +37,36 @@
 
                             <meta name="csrf-token" content="{{ csrf_token() }}">
 
-                            <form id="consultoriaForm" class="row g-3">
+                            <form action="{{ isset($consultoria)
+    ? route('consultorias.update', $consultoria->id)
+    : route('consultorias.store') }}"
+                                method="POST">
 
-                                <div class="col-12">
-                                    <label for="tipo"
-                                        class="form-label fw-semibold">
+                                @csrf
 
-                                        Tipo
+                                @if(isset($consultoria))
+                                @method('PUT')
+                                @endif
 
-                                    </label>
+                                <div class="mb-3">
+                                    <label>Tipo</label>
 
-                                    <select id="tipo"
+                                    <input id="tipo"
                                         name="tipo"
-                                        class="form-select"
-                                        required>
-
-                                        <option value="">
-                                            Selecciona un tipo
-                                        </option>
-
-                                        <option value="Legal">
-                                            Legal
-                                        </option>
-
-                                        <option value="Ambiental">
-                                            Ambiental
-                                        </option>
-
-                                        <option value="Industrial">
-                                            Industrial
-                                        </option>
-
-                                    </select>
-                                </div>
-
-                                <div class="col-12">
-
-                                    <label for="descripcion"
-                                        class="form-label fw-semibold">
-
-                                        Descripcion
-
-                                    </label>
-
-                                    <textarea id="descripcion"
-                                        name="descripcion"
                                         class="form-control"
-                                        rows="4"
-                                        required></textarea>
+                                        value="{{ $consultoria->tipo ?? old('tipo') }}">
                                 </div>
 
-                                <div class="col-12 d-flex gap-2 pt-2">
+                                <div class="mb-3">
+                                    <label>Descripción</label>
 
-                                    <button id="submitButton"
-                                        type="submit"
-                                        class="btn btn-primary">
-
-                                        Guardar consultoria
-
-                                    </button>
+                                    <textarea name="descripcion"
+                                        class="form-control">{{ $consultoria->descripcion ?? '' }}</textarea>
                                 </div>
 
+                                <button type="submit" class="btn btn-primary">
+                                    Guardar consultoria
+                                </button>
                             </form>
 
                             <script>
@@ -125,7 +93,7 @@
                                         try {
 
                                             const response =
-                                                await fetch('/api/consultorias', {
+                                                await fetch('/consultorias', {
 
                                                     method: 'POST',
 

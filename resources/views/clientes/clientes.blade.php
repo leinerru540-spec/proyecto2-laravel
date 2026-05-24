@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/Style.css" rel="stylesheet">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
@@ -25,7 +27,7 @@
                     <li class="nav-item"><a class="nav-link active" href="/clientes">Clientes</a></li>
                     <li class="nav-item"><a class="nav-link" href="/consultorias">Consultorias</a></li>
                     <li class="nav-item"><a class="nav-link" href="/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li> 
                     <li class="nav-item"><a class="btn btn-outline-primary" href="/admin">Panel Admin</a></li>
                     <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
                 </ul>
@@ -49,7 +51,7 @@
                         <div class="card-body p-4">
                             <h2 class="h5 mb-3">Acciones rapidas</h2>
                             <div class="d-grid gap-2">
-                                <a href="/clientes/nuevo" class="btn btn-primary">Nuevo cliente</a>
+                                <a href="/clientes/create" class="btn btn-primary">Nuevo cliente</a>
                                 <a href="/consultorias" class="btn btn-outline-secondary">Ver consultorias</a>
                             </div>
                         </div>
@@ -68,7 +70,7 @@
                             <h2 class="h4 mb-1 section-title">Listado de clientes</h2>
                             <p class="text-secondary mb-0">Consulta y administra la informacion comercial de cada cliente.</p>
                         </div>
-                        <a class="btn btn-primary" href="/clientes/nuevo">Nuevo cliente</a>
+                        <a class="btn btn-primary" href="/clientes/create">Nuevo cliente</a>
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -77,34 +79,39 @@
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Empresa</th>
-                                    <th>Telefono</th>
-                                    <th>Correo</th>
-                                    <th class="text-end">Acciones</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Empresa</th>
+                                    <th class="text-center">Telefono</th>
+                                    <th class="text-center">Correo</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:if="${#lists.isEmpty(clientes)}">
-                                    <td colspan="6" class="text-center text-secondary py-4">No hay clientes registrados todavia.</td>
+                                @if($clientes->isEmpty())
+                                <tr>
+                                    <td colspan="6" class="text-center">No hay clientes registrados todavía.</td>
                                 </tr>
-                                <tr th:each="cliente : ${clientes}">
-                                    <td th:text="${cliente.id}"></td>
-                                    <td th:text="${cliente.nombre}"></td>
-                                    <td th:text="${cliente.empresa != null and !#strings.isEmpty(cliente.empresa) ? cliente.empresa : '-'}"></td>
-                                    <td th:text="${cliente.telefono}"></td>
-                                    <td th:text="${cliente.correo}"></td>
-                                    <td class="text-end">
-                                        <div class="d-inline-flex gap-2">
-                                            <a class="btn btn-sm btn-outline-primary" th:href="@{/clientes/editar/{id}(id=${cliente.id})}">Editar</a>
-                                            <form th:action="@{/clientes/eliminar/{id}(id=${cliente.id})}" method="post" class="m-0"
-                                                onsubmit="return confirm('Seguro que deseas eliminar este cliente?');">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                                            </form>
-                                        </div>
+                                @endif
+
+                                @foreach($clientes as $cliente)
+                                <tr>
+                                    <td class="text-center">{{ $cliente->id }}</td>
+                                    <td class="text-center">{{ $cliente->nombre }}</td>
+                                    <td class="text-center">{{ $cliente->empresa ?? '-' }}</td>
+                                    <td class="text-center">{{ $cliente->telefono }}</td>
+                                    <td class="text-center">{{ $cliente->correo }}</td>
+                                    <td class="text-center d-flex gap-2 justify-content-center">
+                                        <a href="{{ route('clientes.edit', $cliente->id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+                                        <form action="{{ route('clientes.destroy', $cliente->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar este cliente?');">Eliminar</button>
+                                        </form>
+
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -115,4 +122,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

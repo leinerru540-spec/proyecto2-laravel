@@ -101,12 +101,12 @@ Accept: application/json
 
 ### Listar clientes
 GET {{baseUrl}}/clientes
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Authorization: Bearer 3|b6B1piIPOeaj76HXjaocneZx9638q0DdVwHvnZ9Ef3b9a6dd
 Accept: application/json
 
 ### Crear cliente
 POST {{baseUrl}}/clientes
-Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
+Authorization: Bearer 3|b6B1piIPOeaj76HXjaocneZx9638q0DdVwHvnZ9Ef3b9a6dd
 Content-Type: application/json
 Accept: application/json
 

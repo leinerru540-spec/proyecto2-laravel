@@ -18,7 +18,7 @@
         <div class="container login-shell d-flex align-items-center justify-content-center">
             <div class="login-card-wrap w-100">
                 <section class="login-card p-4 p-lg-5">
-                    <a class="btn btn-outline-primary" href="/">Ir al inicio</a>
+                    <a class="btn btn-outline-primary" href="/">Pagina principal</a>
                     <div class="d-flex align-items-center gap-3 mb-4">
                         <div class="login-accent">
                             <img src="/images/logo.png" alt="Logo de Consultoria Legal" class="login-logo">
@@ -32,7 +32,12 @@
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
-                    <div id="statusMessage" class="alert status-box" role="alert"></div>
+                    {{-- Reemplaza el div#statusMessage con esto --}}
+                    @if ($errors->any())
+                    <div class="alert alert-danger" role="alert">
+                        {{ $errors->first('email') }}
+                    </div>
+                    @endif
 
                     <meta name="csrf-token" content="{{ csrf_token() }}">
 

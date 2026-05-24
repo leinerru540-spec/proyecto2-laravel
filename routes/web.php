@@ -1,87 +1,68 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\ConsultoriaController;
+use App\Http\Controllers\SolicitudController;
+use Illuminate\Support\Facades\Auth;
 
-// Ruta de inicio
-Route::get('/', function () {
-    return view('index');
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+*/
+
+Route::view('/', 'index')->name('index');
+
+Route::view('/login', 'auth.login')->name('login');
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware('auth');
+
+
+Route::view('/registro', 'auth.registro')->name('register');
+
+// En una ruta /dashboard o similar
+Route::get('/dashboard', function () {
+    if (Auth::user()->rol_id == 2) {
+        return redirect('/admin');
+    }
+    return redirect('/solicitudes');
+})->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::view('/admin', 'admin.admin');
+
+    Route::resource('usuarios', UsuarioController::class);
+
+    Route::resource('roles', RolController::class);
+
+    Route::resource('clientes', ClienteController::class);
 });
 
-// Ruta login
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+/*
+|--------------------------------------------------------------------------
+| USUARIOS AUTENTICADOS
+|--------------------------------------------------------------------------
+*/
 
-Route::post('/login', function () {
-    return view('consultorias.consultorias');
-})->name('login.post');
+Route::middleware(['auth'])->group(function () {
 
-// Registro
-Route::get('/registro', function () {
-    return view('auth.registro');
-});
+    Route::resource('solicitudes', SolicitudController::class);
 
-Route::post('/registro', function () {
-    return view('auth.login');
-});
+    Route::resource('consultorias', ConsultoriaController::class);
 
-// Clientes
-Route::get('/clientes', function () {
-    return view('clientes.clientes');
-});
-
-Route::get('/clientes/nuevo', function () {
-    return view('clientes.cliente-form', ['cliente' => null]);
-});
-route::post('/clientes/nuevo', function () {
-    return view('clientes.clientes');
-});
-
-// Consultorías
-Route::get('/consultorias', function () {
-    return view('consultorias.consultorias');
-});
-
-Route::get('/consultorias/nueva', function () {
-    return view('consultorias.consultoria-form', ['consultoria' => null]);
-});
-
-Route::post('/consultorias/nueva', function () {
-    return view('consultorias.consultorias');
-});
-
-// Solicitudes
-Route::get('/solicitudes', function () {
-    return view('solicitudes.solicitudes');
-});
-
-Route::get('/solicitudes/nueva', function () {
-    return view('solicitudes.solicitud-form', ['solicitud' => null]);
-});
-
-Route::post('/solicitudes/nueva', function () {
-    return view('solicitudes.solicitudes');
-});
-
-// Usuarios
-Route::get('/usuarios', function () {
-    return view('usuarios.usuarios');
-});
-
-
-Route::get('/usuarios/nuevo', function () {
-    return view('usuarios.usuario-form', ['usuario' => null]);
-});
-
-// Admin
-Route::get('/admin', function () {
-    return view('admin.admin');
-});
-
-// User
-Route::get('/user', function () {
-    return view('user.user');
-});
-
-Route::get('/perfil', function () {
-    return view('user.user');
+    Route::view('/perfil', 'user.user');
 });

@@ -5,7 +5,7 @@ return [
  'environmental_consulting' => 'Environmental Consulting',
  'industrial_consulting' => 'Industrial Consulting',
 
- ## Navigation Links
+ //Navigation Links
  'link_mision' => 'Mission',
  'link_services' => 'Services',
  'link_vision' => 'Vision',
@@ -31,7 +31,7 @@ return [
  'services' => 'Consultancies organized from the first request',
  'services_desc' => 'The system allows each procedure to be registered, reviewed and followed up from a clear view for customers and administrators.',
 
- ### Descriptions different consulting areas
+ //Descriptions different consulting areas
 
  'legal_consulting_descs' => 'Follow-up of cases, requests and specialized attention from the same platform.',
 

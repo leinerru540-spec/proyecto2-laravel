@@ -9,7 +9,14 @@ class ConsultoriaController extends Controller
 {
     public function index()
     {
-        return response()->json(Consultoria::all());
+        return view('consultorias.consultorias', [
+            'consultorias' => Consultoria::all()
+        ]);
+    }
+
+    public function create()
+    {
+        return view('consultorias.consultoria-form', ['consultoria' => null]);
     }
 
     public function store(Request $request)
@@ -28,11 +35,18 @@ class ConsultoriaController extends Controller
         return response()->json(Consultoria::findOrFail($id));
     }
 
+    public function edit($id)
+    {
+        return view('consultorias.consultoria-form', [
+            'consultoria' => Consultoria::findOrFail($id)
+        ]);
+    }
+
     public function update(Request $request, $id)
     {
         $consultoria = Consultoria::findOrFail($id);
         $consultoria->update($request->all());
-        return response()->json($consultoria);
+        return redirect()->route('consultorias.index');
     }
 
     public function destroy($id)

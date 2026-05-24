@@ -9,7 +9,14 @@ class ClienteController extends Controller
 {
     public function index()
     {
-        return response()->json(Cliente::all());
+        $clientes = Cliente::all();
+
+        return view('clientes.clientes', compact('clientes'));
+    }
+
+    public function create()
+    {
+        return view('clientes.cliente-form', ['cliente' => null]);
     }
 
     public function store(Request $request)
@@ -22,7 +29,7 @@ class ClienteController extends Controller
         ]);
 
         $cliente = Cliente::create($request->all());
-        return response()->json($cliente, 201);
+        return redirect()->route('clientes.index');
     }
 
     public function show($id)
@@ -32,9 +39,24 @@ class ClienteController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nombre' => 'required|string',
+            'correo' => 'required|email',
+            'telefono' => 'required|string',
+            'empresa' => 'required|string'
+        ]);
+
         $cliente = Cliente::findOrFail($id);
         $cliente->update($request->all());
-        return response()->json($cliente);
+
+        return redirect()->route('clientes.index');
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $cliente = Cliente::findOrFail($id);
+
+        return view('clientes.cliente-form', compact('cliente'));
     }
 
     public function destroy($id)

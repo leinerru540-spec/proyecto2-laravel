@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,6 @@
             </a>
             <div class="d-flex gap-2">
                 <a class="btn btn-outline-primary" href="/clientes">Volver a clientes</a>
-                <a class="btn btn-outline-danger" href="/login">Cerrar sesion</a>
             </div>
         </div>
     </nav>
@@ -38,8 +37,15 @@
 
                             <meta name="csrf-token" content="{{ csrf_token() }}">
 
-                            <form id="clienteForm" class="row g-3">
+                            <form
+                                action="{{ isset($cliente) ? route('clientes.update', $cliente->id) : route('clientes.store') }}"
+                                method="POST"
+                                class="row g-3">
+                                @csrf   
 
+                                @if (isset($cliente))
+                                    @method('PUT')
+                                @endif
                                 <div class="col-md-6">
 
                                     <label for="nombre"
@@ -52,6 +58,7 @@
                                     <input id="nombre"
                                         name="nombre"
                                         class="form-control"
+                                        value="{{ $cliente->nombre ?? old('nombre') }}"
                                         required>
                                 </div>
 
@@ -66,7 +73,9 @@
 
                                     <input id="empresa"
                                         name="empresa"
-                                        class="form-control">
+                                        class="form-control"
+                                        value="{{ $cliente->empresa ?? old('empresa') }}"
+                                        required>
                                 </div>
 
                                 <div class="col-md-6">
@@ -81,6 +90,7 @@
                                     <input id="telefono"
                                         name="telefono"
                                         class="form-control"
+                                        value="{{ $cliente->telefono ?? old('telefono') }}"
                                         required>
                                 </div>
 
@@ -97,6 +107,7 @@
                                         name="correo"
                                         type="email"
                                         class="form-control"
+                                        value="{{ $cliente->correo ?? old('correo') }}"
                                         required>
                                 </div>
 
@@ -119,105 +130,6 @@
                                 </div>
 
                             </form>
-
-                            <script>
-                                document.getElementById('clienteForm')
-                                    .addEventListener('submit', async function(e) {
-
-                                        e.preventDefault();
-
-                                        const token =
-                                            localStorage.getItem('token');
-
-                                        if (!token) {
-
-                                            window.location.href = '/login';
-                                            return;
-                                        }
-
-                                        const submitButton =
-                                            document.getElementById('submitButton');
-
-                                        submitButton.disabled = true;
-
-                                        submitButton.innerText =
-                                            'Guardando...';
-
-                                        try {
-
-                                            const response =
-                                                await fetch('/api/clientes', {
-
-                                                    method: 'POST',
-
-                                                    headers: {
-
-                                                        'Content-Type': 'application/json',
-
-                                                        'Accept': 'application/json',
-
-                                                        'Authorization': 'Bearer ' + token,
-
-                                                        'X-CSRF-TOKEN': document.querySelector(
-                                                            'meta[name="csrf-token"]'
-                                                        ).content
-                                                    },
-
-                                                    body: JSON.stringify({
-
-                                                        nombre: document.getElementById(
-                                                            'nombre'
-                                                        ).value,
-
-                                                        empresa: document.getElementById(
-                                                            'empresa'
-                                                        ).value,
-
-                                                        telefono: document.getElementById(
-                                                            'telefono'
-                                                        ).value,
-
-                                                        correo: document.getElementById(
-                                                            'correo'
-                                                        ).value
-                                                    })
-                                                });
-
-                                            const data =
-                                                await response.json();
-
-                                            if (response.ok) {
-
-                                                alert('Cliente creado');
-
-                                                window.location.href =
-                                                    '/clientes';
-
-                                            } else {
-
-                                                alert(
-                                                    data.message ||
-                                                    'Error al guardar'
-                                                );
-                                            }
-
-                                        } catch (error) {
-
-                                            console.error(error);
-
-                                            alert(
-                                                'Error al conectar con el servidor'
-                                            );
-
-                                        } finally {
-
-                                            submitButton.disabled = false;
-
-                                            submitButton.innerText =
-                                                'Guardar cliente';
-                                        }
-                                    });
-                            </script>
                         </div>
                     </div>
                 </div>

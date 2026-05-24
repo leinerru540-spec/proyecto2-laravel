@@ -5,7 +5,7 @@ return [
     'environmental_consulting' => 'Consultoría Ambiental',
     'industrial_consulting' => 'Consultoría Industrial',
 
-    ## Navigation Links
+    //Navigation Links
     'link_mision' => 'Misión',
     'link_services' => 'Servicios',
     'link_access' => 'Acceso',
@@ -28,7 +28,7 @@ return [
     'services' => 'Consultorías organizadas desde la primera solicitud',
     'services_desc' => 'El sistema permite que cada trámite sea registrado, revisado y seguido desde una vista clara para clientes y administradores.',
 
-    ### Descripciones diferentes áreas de consultoría
+    //Descripciones diferentes áreas de consultoría
 
     'legal_consulting_descs' => 'Seguimiento de casos, solicitudes y atención especializada desde la misma plataforma.',
 
@@ -43,6 +43,9 @@ return [
     'administration_panel_desc' => 'Los administradores gestionan clientes, usuarios, consultorías y estados',
     'centralized_tracking' => 'Seguimiento Centralizado',
     'centralized_tracking_desc' => 'Cada trámite retiene fecha, descripción, servicio solicitado y estado actual',
+
+    'access_by_role' => 'Acceso por roles',
+ 'access_by_role_desc' => 'El inicio de sesión identifica si la cuenta corresponde a administrador o cliente y redirige al panel correspondiente para mantener el flujo simple y ordenado.',
 
     'footer_desc' => 'Consultoría Legal | Plataforma de Gestión - Desarrollado por [Grupo: Jefferson & Leiner]',
 ];

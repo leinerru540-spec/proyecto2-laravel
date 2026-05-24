@@ -24,10 +24,12 @@
             <div class="d-flex gap-2">
                 <ul class="navbar-nav ms-auto gap-lg-2">
                     <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/clientes">Clientes</a></li>
+                    
                     <li class="nav-item" th:if="${isAdmin}"><a class="nav-link"
                             href="/consultorias">Consultorias</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/solicitudes">Solicitudes</a></li>
+                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link active" href="/usuarios">Usuarios</a></li>
+ 
 
                     <li class="nav-item"><a class="btn btn-outline-primary" href="/admin">Panel Admin</a></li>
                     <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
@@ -47,7 +49,7 @@
                             <h1 class="h3 mb-1 page-title">Usuarios registrados</h1>
                             <p class="text-secondary mb-0">Administra las cuentas que pueden ingresar al sistema.</p>
                         </div>
-                        <a class="btn btn-primary" href="/usuarios/nuevo">Nuevo usuario</a>
+                        <a class="btn btn-primary" href="{{ route('usuarios.create') }}">Nuevo usuario</a>
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -56,35 +58,39 @@
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Email</th>
-                                    <th>Rol</th>
-                                    <th>Acciones</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Rol</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:if="${#lists.isEmpty(usuarios)}">
-                                    <td colspan="5" class="text-center text-secondary py-4">No hay usuarios registrados
-                                        todavia.</td>
-                                </tr>
-                                <tr th:each="usuario : ${usuarios}">
-                                    <td th:text="${usuario.id}"></td>
-                                    <td th:text="${usuario.nombre}"></td>
-                                    <td th:text="${usuario.email}"></td>
-                                    <td><span class="badge text-bg-light border" th:text="${usuario.rol.nombre}"></span>
+                                @if($usuarios->isEmpty())
+                                <tr>
+                                    <td colspan="5" class="text-center text-secondary py-4">
+                                        No hay usuarios registrados todavía.
                                     </td>
-                                    <td>
-                                        <a class="btn btn-sm btn-outline-primary"
-                                            th:href="@{/vista/usuarios/editar/{id}(id=${usuario.id})}">Editar</a>
-                                        <form th:action="@{/vista/usuarios/eliminar/{id}(id=${usuario.id})}"
-                                            method="post" class="m-0"
-                                            onsubmit="return confirm('Seguro que deseas eliminar este usuario? Tambien se quitara de clientes si aplica.');">
-                                            <button type="submit"
-                                                class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                </tr>
+                                @endif
+                                @foreach ($usuarios as $usuario)
+                                <tr>
+                                    <td class="text-center">{{ $usuario->id }}</td>
+                                    <td class="text-center">{{ $usuario->nombre }}</td>
+                                    <td class="text-center">{{ $usuario->email }}</td>
+                                    <td class="text-center">
+                                        <span class="badge text-bg-light border">{{ $usuario->rol->nombre }}</span>
+                                    </td>
+                                    <td class="text-center d-flex gap-2 justify-content-center">
+                                        <a class="btn btn-sm btn-outline-primary" href="{{ route('usuarios.edit', $usuario->id) }}">Editar</a>
+                                        <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario? También se eliminará de los clientes si aplica.')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                                         </form>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

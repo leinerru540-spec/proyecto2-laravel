@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -21,20 +21,38 @@
                 <img class="brand-logo" src="/images/logo.png" alt="Logo de Consultoria Legal">
                 <span>Consultoria Legal</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesNav"
-                aria-controls="solicitudesNav" aria-expanded="false" aria-label="Abrir navegacion">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#solicitudesNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="solicitudesNav">
                 <ul class="navbar-nav ms-auto gap-lg-2">
-                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/clientes">Clientes</a></li>
-                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link"
-                            href="/consultorias">Consultorias</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/solicitudes">Solicitudes</a></li>
-                    <li class="nav-item" th:if="${isAdmin}"><a class="nav-link" href="/usuarios">Usuarios</a></li>
+                    @if(Auth::user()->rol_id != 2)
+                    <li class="align-items-center d-flex">¡Hola, {{ Auth::user()->nombre }}!</li>
+                    @endif
+
+                    @if(Auth::user()->rol_id == 2)
+                    <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+                    @endif
+
+
+                    <li class="nav-item"><a class="nav-link" href="/consultorias">Consultorias</a></li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/solicitudes">
+                            {{ Auth::user()->rol_id == 2 ? 'Solicitudes' : 'Mis Solicitudes' }}
+                        </a>
+                    </li>
                     
+                    @if(Auth::user()->rol_id == 2)
+                    <li class="nav-item"><a class="nav-link" href="/usuarios">Usuarios</a></li>
                     <li class="nav-item"><a class="btn btn-outline-primary" href="/admin">Panel Admin</a></li>
-                    <li class="nav-item"><a class="btn btn-outline-danger" href="/login">Cerrar sesion</a></li>
+                    @endif
+                    <li class="nav-item">
+                        <form action="/logout" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger">Cerrar sesion</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -45,24 +63,24 @@
             <div class="row align-items-center g-4">
                 <div class="col-lg-8">
                     <span class="badge text-bg-primary mb-3">Modulo de solicitudes</span>
-                    <h1 class="display-6 fw-bold mb-3"
-                        th:text="${isAdmin ? 'Controla las solicitudes del proceso de punta a punta.' : 'Seguimiento de tus solicitudes de consultoria.'}">
-                        Controla las solicitudes del proceso de punta a punta.
-                    </h1>
-                    <p class="lead text-secondary mb-0"
-                        th:text="${isAdmin ? 'Revisa el avance de cada tramite, actualiza estados y conserva el historial operativo.' : 'Revisa el estado de tus tramites, consulta la informacion registrada y mantente al tanto del avance de cada solicitud.'}">
-                        Revisa el avance de cada tramite, actualiza estados y conserva el historial operativo.
-                    </p>
+                    @if(Auth::user()->rol_id == 2)
+                    <h1 class="display-6 fw-bold mb-3">Controla las solicitudes del proceso de punta a punta.</h1>
+                    <p class="lead text-secondary mb-0">Revisa el avance de cada tramite, actualiza estados y conserva el historial operativo.</p>
+                    @else
+                    <h1 class="display-6 fw-bold mb-3">Seguimiento de tus solicitudes de consultoria.</h1>
+                    <p class="lead text-secondary mb-0">Revisa el estado de tus tramites y mantente al tanto del avance de cada solicitud.</p>
+                    @endif
                 </div>
                 <div class="col-lg-4">
                     <div class="quick-panel">
                         <div class="card-body p-4">
+                            @if(Auth::user()->rol_id == 2)
                             <h2 class="h5 mb-3">Acciones rapidas</h2>
                             <div class="d-grid gap-2">
-                                <a href="/solicitudes/nueva" class="btn btn-primary">Nueva solicitud</a>
-                                <a th:if="${isAdmin}" href="/consultorias" class="btn btn-outline-secondary">Ver
-                                    consultorias</a>
+                                <a href="/solicitudes/create" class="btn btn-primary">Nueva solicitud</a>
+                                <a href="/consultorias" class="btn btn-outline-secondary">Ver consultorias</a>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -86,7 +104,7 @@
                             <p class="text-secondary mb-0">Seguimiento centralizado para solicitudes de clientes y
                                 servicios contratados.</p>
                         </div>
-                        <a class="btn btn-primary" href="/solicitudes/nueva">Nueva solicitud</a>
+                        <a class="btn btn-primary" href="/solicitudes/create">Nueva solicitud</a>
                     </div>
 
                     <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
@@ -95,47 +113,54 @@
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Solicitante</th>
-                                    <th>Correo</th>
-                                    <th th:if="${isAdmin}">Cliente</th>
-                                    <th>Descripcion</th>
-                                    <th>Estado</th>
-                                    <th>Fecha</th>
-                                    <th>Consultoria deseada</th>
-                                    <th class="text-end" th:if="${isAdmin}">Acciones</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Solicitante</th>
+                                    <th class="text-center">Correo</th>
+                                    <th class="text-center">Descripcion</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Fecha</th>
+                                    <th class="text-center">Consultoria deseada</th>
+                                    <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:if="${#lists.isEmpty(solicitudes)}">
-                                    <td th:colspan="${isAdmin ? 9 : 7}" class="text-center text-secondary py-4">No hay
-                                        solicitudes registradas todavia.</td>
-                                </tr>
-                                <tr th:each="solicitud : ${solicitudes}">
-                                    <td th:text="${solicitud.id}"></td>
-                                    <td th:text="${solicitud.nombreSolicitante}"></td>
-                                    <td th:text="${solicitud.correoSolicitante}"></td>
-                                    <td th:if="${isAdmin}"
-                                        th:text="${solicitud.cliente != null ? solicitud.cliente.nombre : 'Sin cliente'}">
-                                    </td>
-                                    <td th:text="${solicitud.descripcion}"></td>
-                                    <td><span class="badge text-bg-light border" th:text="${solicitud.estado}"></span>
-                                    </td>
-                                    <td th:text="${solicitud.fecha}"></td>
-                                    <td th:text="${solicitud.consultoria.tipo}"></td>
-                                    <td class="text-end" th:if="${isAdmin}">
-                                        <div class="d-inline-flex gap-2">
-                                            <a class="btn btn-sm btn-outline-primary"
-                                                th:href="@{/vista/solicitudes/editar/{id}(id=${solicitud.id})}">Editar</a>
-                                            <form th:action="@{/vista/solicitudes/eliminar/{id}(id=${solicitud.id})}"
-                                                method="post" class="m-0"
-                                                onsubmit="return confirm('Seguro que deseas eliminar esta solicitud?');">
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger">Eliminar</button>
-                                            </form>
-                                        </div>
+                                @if($solicitudes->isEmpty())
+                                <tr>
+                                    <td colspan="9" class="text-center text-secondary py-4">
+                                        No hay solicitudes registradas todavía.
                                     </td>
                                 </tr>
+                                @else
+                                @foreach($solicitudes as $solicitud)
+                                <tr>
+                                    <td class="text-center">{{ $solicitud->id }}</td>
+                                    <td class="text-center">{{ $solicitud->nombre_solicitante }}</td>
+                                    <td class="text-center">{{ $solicitud->correo_solicitante }}</td>
+
+                                    @if(isset($isAdmin))
+                                    <td class="text-center">{{ $solicitud->cliente->nombre ?? '' }}</td>
+                                    @endif
+
+                                    <td class="text-center">{{ $solicitud->descripcion }}</td>
+                                    <td class="text-center">{{ $solicitud->estado }}</td>
+                                    <td class="text-center">{{ $solicitud->fecha }}</td>
+                                    <td class="text-center">{{ $solicitud->consultoria->tipo ?? '' }}</td>
+
+
+                                    <td class="text-center d-flex gap-2 justify-content-center">
+                                        <a href="{{ route('solicitudes.edit', $solicitud->id) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+
+                                        <form action="{{ route('solicitudes.destroy', $solicitud->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Estás seguro de eliminar esta solicitud?');">Eliminar</button>
+                                        </form>
+
+                                    </td>
+
+                                </tr>
+                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
