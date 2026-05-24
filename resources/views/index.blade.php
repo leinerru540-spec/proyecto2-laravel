@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/index.css" rel="stylesheet">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
@@ -27,6 +29,14 @@
                     <li class="nav-item"><a class="nav-link" href="#acceso">{{ __('messages.link_access') }}</a></li>
                     <li class="nav-item"><a class="btn btn-outline-primary" href="/registro">{{ __('messages.link_createAccount') }}</a></li>
                     <li class="nav-item"><a class="btn btn-primary px-4" href="/login">{{ __('messages.link_login') }}</a></li>
+                    {{-- Botón de idioma --}}
+                    <li class="nav-item">
+                        @if(app()->getLocale() == 'es')
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('lang.switch', 'en') }}">EN</a>
+                        @else
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('lang.switch', 'es') }}">ES</a>
+                        @endif
+                    </li>
                 </ul>
             </div>
         </div>
@@ -204,4 +214,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

@@ -15,15 +15,16 @@ return Application::configure(basePath: dirname(__DIR__))
 
     ->withMiddleware(function (Middleware $middleware) {
 
-        // Sanctum
         $middleware->statefulApi();
 
-        // Alias middleware admin
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
         ]);
 
-        $middleware->append(\App\Http\Middleware\SetLocaleFromHeader::class);
+        // Cambia append por web para que corra después de la sesión
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocaleFromHeader::class,
+        ]);
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {

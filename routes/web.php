@@ -24,6 +24,14 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth');
 
+// ✅ Agrega esto aquí
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['es', 'en'])) {
+        request()->session()->put('locale', $locale);
+        request()->session()->save(); // ← fuerza guardar
+    }
+    return redirect('/');
+})->name('lang.switch');
 
 Route::view('/registro', 'auth.registro')->name('register');
 
