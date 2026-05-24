@@ -64,94 +64,23 @@
                                         class="form-control">{{ $consultoria->descripcion ?? '' }}</textarea>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">
-                                    Guardar consultoria
-                                </button>
+                                {{-- BOTONES --}}
+                                <div class="col-12 d-flex justify-content-end gap-2 pt-3">
+
+                                    <a href="/consultorias"
+                                        class="btn btn-outline-secondary px-4">
+                                        Cancelar
+                                    </a>
+
+                                    <button type="submit"
+                                        class="btn btn-primary px-4">
+                                        Guardar consultoria
+                                    </button>
+
+                                </div>
                             </form>
 
-                            <script>
-                                document.getElementById('consultoriaForm')
-                                    .addEventListener('submit', async function(e) {
 
-                                        e.preventDefault();
-
-                                        const token =
-                                            localStorage.getItem('token');
-
-                                        if (!token) {
-
-                                            window.location.href = '/login';
-                                            return;
-                                        }
-
-                                        const submitButton =
-                                            document.getElementById('submitButton');
-
-                                        submitButton.disabled = true;
-                                        submitButton.innerText = 'Guardando...';
-
-                                        try {
-
-                                            const response =
-                                                await fetch('/consultorias', {
-
-                                                    method: 'POST',
-
-                                                    headers: {
-
-                                                        'Content-Type': 'application/json',
-
-                                                        'Accept': 'application/json',
-
-                                                        'Authorization': 'Bearer ' + token,
-
-                                                        'X-CSRF-TOKEN': document.querySelector(
-                                                            'meta[name="csrf-token"]'
-                                                        ).content
-                                                    },
-
-                                                    body: JSON.stringify({
-
-                                                        tipo: document.getElementById('tipo').value,
-
-                                                        descripcion: document.getElementById(
-                                                            'descripcion'
-                                                        ).value
-                                                    })
-                                                });
-
-                                            const data = await response.json();
-
-                                            if (response.ok) {
-
-                                                alert('Consultoria creada');
-
-                                                window.location.href =
-                                                    '/consultorias';
-
-                                            } else {
-
-                                                alert(
-                                                    data.message ||
-                                                    'Error al guardar'
-                                                );
-                                            }
-
-                                        } catch (error) {
-
-                                            alert(
-                                                'Error al conectar con el servidor'
-                                            );
-
-                                        } finally {
-
-                                            submitButton.disabled = false;
-
-                                            submitButton.innerText =
-                                                'Guardar consultoria';
-                                        }
-                                    });
-                            </script>
                         </div>
                     </div>
                 </div>
