@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8000/api
+@baseUrl = http://localhost:8000/
 @token = {{token}}
 @clienteId = 1
 @consultoriaId = 1
@@ -229,3 +229,7 @@ Accept: application/json
 DELETE {{baseUrl}}/solicitudes/2
 Authorization: Bearer 1|U2m5qUnRbYWI5J6SNRoCtmuUzNe7U0A8yj2ukzxrfc247375
 Accept: application/json
+
+### Index bilingüe
+GET {{baseUrl}}
+Accept-Language: en
