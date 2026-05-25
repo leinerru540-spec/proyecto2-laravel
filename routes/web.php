@@ -30,7 +30,6 @@ Route::get('/lang/{locale}', function ($locale) {
     return redirect('/');
 })->name('lang.switch');
 
-<<<<<<< HEAD
 // Reemplaza esto:
 Route::view('/registro', 'auth.registro')->name('register');
 
@@ -39,26 +38,6 @@ Route::view('/registro', 'auth.registro')->name('register');
 Route::post('/registro', [AuthController::class, 'registro']);
 
 // En una ruta /dashboard o similar
-=======
-/*
-|--------------------------------------------------------------------------
-| REGISTRO
-|--------------------------------------------------------------------------
-*/
-
-// GET → muestra el formulario
-Route::view('/registro', 'auth.registro')->name('register');
-
-// POST → procesa el formulario
-Route::post('/registro', [AuthController::class, 'register'])->name('registro.store');
-
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD
-|--------------------------------------------------------------------------
-*/
-
->>>>>>> 7701a195e6a424e2ed1ac0308c500ced9e6647e3
 Route::get('/dashboard', function () {
     if (Auth::user()->rol_id == 2) {
         return redirect('/admin');
