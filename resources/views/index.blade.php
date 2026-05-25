@@ -16,8 +16,8 @@
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold brand-link brand-link-home" href="/">
-                <img class="brand-logo" src="/images/logo.png" alt="Logo de Consultoria Legal">
-                <span> {{ __('messages.span_consulting') }}</span>
+               
+            <span> {{ __('messages.span_consulting') }}</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Abrir navegacion">
                 <span class="navbar-toggler-icon"></span>

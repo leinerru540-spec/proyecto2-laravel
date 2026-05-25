@@ -62,6 +62,6 @@ class ClienteController extends Controller
     public function destroy($id)
     {
         Cliente::destroy($id);
-        return response()->json(['message' => 'Cliente eliminado']);
-    }
+
+        return redirect()->route('clientes.index');}
 }
