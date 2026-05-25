@@ -1,5 +1,5 @@
-@baseUrl = http://localhost:8000/
-@token = 7|sN8L2wDYdZYeRzjQUZmHSJQaq4c4VvD54qpKdwzX2a74da8d
+@baseUrl = http://localhost:8000/api
+@token = {{token}}
 @clienteId = 1
 @consultoriaId = 1
 @solicitudId = 1
@@ -29,7 +29,7 @@ Accept: application/json
 
 ### Listar roles (requiere token)
 GET {{baseUrl}}/roles
-Authorization: Bearer 7|sN8L2wDYdZYeRzjQUZmHSJQaq4c4VvD54qpKdwzX2a74da8d
+Authorization: Bearer 6|Q2cBej5xGelygW9wdFmEBkWmorzqISzalGj9bGmd4068bf31
 Accept: application/json
 
 ### Crear rol
