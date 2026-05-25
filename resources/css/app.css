@@ -9,3 +9,15 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+.brand-logo {
+    max-width: 100px !important;
+    height: auto !important;
+}
+
+@media (min-width: 768px) {
+    .brand-logo {
+        max-width: 150px !important;
+    }
+}
+

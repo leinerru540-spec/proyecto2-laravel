@@ -16,7 +16,6 @@
     <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold brand-link" href="/">
-                <img class="brand-logo" src="/images/logo.png" alt="Logo de Consultoria Legal">
                 <span>Consultoria Legal</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav" aria-controls="adminNav" aria-expanded="false" aria-label="Abrir navegacion">

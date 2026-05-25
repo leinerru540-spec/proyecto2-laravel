@@ -18,21 +18,19 @@ use Illuminate\Support\Facades\Auth;
 Route::view('/', 'index')->name('index');
 
 Route::view('/login', 'auth.login')->name('login');
-
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth');
-
-// ✅ Agrega esto aquí
+// ✅ Cambio de idioma
 Route::get('/lang/{locale}', function ($locale) {
     if (in_array($locale, ['es', 'en'])) {
         request()->session()->put('locale', $locale);
-        request()->session()->save(); // ← fuerza guardar
+        request()->session()->save();
     }
     return redirect('/');
 })->name('lang.switch');
 
+<<<<<<< HEAD
 // Reemplaza esto:
 Route::view('/registro', 'auth.registro')->name('register');
 
@@ -41,6 +39,26 @@ Route::view('/registro', 'auth.registro')->name('register');
 Route::post('/registro', [AuthController::class, 'registro']);
 
 // En una ruta /dashboard o similar
+=======
+/*
+|--------------------------------------------------------------------------
+| REGISTRO
+|--------------------------------------------------------------------------
+*/
+
+// GET → muestra el formulario
+Route::view('/registro', 'auth.registro')->name('register');
+
+// POST → procesa el formulario
+Route::post('/registro', [AuthController::class, 'register'])->name('registro.store');
+
+/*
+|--------------------------------------------------------------------------
+| DASHBOARD
+|--------------------------------------------------------------------------
+*/
+
+>>>>>>> 7701a195e6a424e2ed1ac0308c500ced9e6647e3
 Route::get('/dashboard', function () {
     if (Auth::user()->rol_id == 2) {
         return redirect('/admin');
@@ -55,13 +73,9 @@ Route::get('/dashboard', function () {
 */
 
 Route::middleware(['auth', 'admin'])->group(function () {
-
     Route::view('/admin', 'admin.admin');
-
     Route::resource('usuarios', UsuarioController::class);
-
     Route::resource('roles', RolController::class);
-
     Route::resource('clientes', ClienteController::class);
 });
 
@@ -72,10 +86,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 */
 
 Route::middleware(['auth'])->group(function () {
-
     Route::resource('solicitudes', SolicitudController::class);
-
     Route::resource('consultorias', ConsultoriaController::class);
-
     Route::view('/perfil', 'user.user');
 });

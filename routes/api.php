@@ -12,11 +12,9 @@ use App\Models\Usuario;
 */
 
 Route::post('/login', function (Request $request) {
-
     $user = Usuario::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
-
         return response()->json([
             'message' => 'Credenciales inválidas'
         ], 401);
@@ -25,7 +23,22 @@ Route::post('/login', function (Request $request) {
     $token = $user->createToken('token')->plainTextToken;
 
     return response()->json([
-        'token' => $token
+        'token' => $token,
+        'user'  => $user
+    ]);
+});
+
+/*
+|--------------------------------------------------------------------------
+| LOGOUT API
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json([
+        'message' => 'Sesión cerrada correctamente'
     ]);
 });
 
@@ -37,8 +50,17 @@ Route::post('/login', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    // Usuario autenticado
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
+    // Ejemplo: CRUD protegido de clientes
+    Route::apiResource('clientes', \App\Http\Controllers\ClienteController::class);
+
+    // Ejemplo: CRUD protegido de consultorías
+    Route::apiResource('consultorias', \App\Http\Controllers\ConsultoriaController::class);
+
+    // Ejemplo: CRUD protegido de solicitudes
+    Route::apiResource('solicitudes', \App\Http\Controllers\SolicitudController::class);
 });
