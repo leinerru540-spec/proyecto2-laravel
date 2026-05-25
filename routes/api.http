@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8000/
-@token = {{token}}
+@token = 7|sN8L2wDYdZYeRzjQUZmHSJQaq4c4VvD54qpKdwzX2a74da8d
 @clienteId = 1
 @consultoriaId = 1
 @solicitudId = 1
@@ -21,16 +21,15 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "email": "user@demo.com",
-  "password": "user123"
+  "email": "admin@demo.com",
+  "password": "admin123"
 }
 
 //Bloque de endpoints para roles
 
 ### Listar roles (requiere token)
 GET {{baseUrl}}/roles
-Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
-
+Authorization: Bearer 7|sN8L2wDYdZYeRzjQUZmHSJQaq4c4VvD54qpKdwzX2a74da8d
 Accept: application/json
 
 ### Crear rol
@@ -69,7 +68,7 @@ Accept: application/json
 
 ### Listar usuarios (requiere token)
 GET {{baseUrl}}/usuarios
-Authorization: Bearer 2|cV7Ry11bK1pWgDcAjRcP0qKUwISsvFmJYguuPRR95d92ae3b
+Authorization: Bearer 7|sN8L2wDYdZYeRzjQUZmHSJQaq4c4VvD54qpKdwzX2a74da8d
 Accept: application/json
 
 ### Obtener usuario por ID (requiere token)
