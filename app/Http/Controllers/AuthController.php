@@ -45,26 +45,18 @@ class AuthController extends Controller
 
         return redirect('/solicitudes');
     }
-
+    
     public function registro(Request $request)
-    {
-        $request->validate([
-            'nombre'   => 'required|string|max:255',
-            'email'    => 'required|email|unique:usuarios,email',
-            'password' => 'required|min:6',
-        ]);
-    }
-
-    public function register(Request $request)
     {
         // Validación de datos
         $request->validate([
             'nombre'   => 'required|string|max:255',
             'email'    => 'required|email|unique:usuarios,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6',
         ]);
 
         // Crear nuevo usuario
+
         $usuario = Usuario::create([
             'nombre'   => $request->nombre,
             'email'    => $request->email,

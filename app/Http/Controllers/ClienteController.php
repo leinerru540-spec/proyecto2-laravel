@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ClienteController extends Controller
 {
@@ -27,7 +29,7 @@ class ClienteController extends Controller
             'telefono' => 'required|string',
             'empresa' => 'required|string'
         ]);
-
+        
         $cliente = Cliente::create($request->all());
         return redirect()->route('clientes.index');
     }
