@@ -91,11 +91,37 @@
 
                                     <input type="hidden"
                                         name="cliente_id"
-                                        value="{{ auth()->user()->cliente->id ?? '' }}">
-
+                                        value="{{ \App\Models\Cliente::where('correo', auth()->user()->email)->first()->id ?? '' }}">
                                     @endif
 
                                 </div>
+
+                                {{-- NOMBRE SOLICITANTE --}}
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Nombre solicitante</label>
+                                    @if(Auth::user()->rol_id == 2)
+                                    <input type="text" name="nombre_solicitante" class="form-control"
+                                        value="{{ $solicitudForm->nombre_solicitante ?? '' }}" required>
+                                    @else
+                                    <input type="text" class="form-control bg-light"
+                                        value="{{ Auth::user()->nombre }}" readonly>
+                                    <input type="hidden" name="nombre_solicitante" value="{{ Auth::user()->nombre }}">
+                                    @endif
+                                </div>
+
+                                {{-- CORREO SOLICITANTE --}}
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Correo solicitante</label>
+                                    @if(Auth::user()->rol_id == 2)
+                                    <input type="email" name="correo_solicitante" class="form-control"
+                                        value="{{ $solicitudForm->correo_solicitante ?? '' }}" required>
+                                    @else
+                                    <input type="email" class="form-control bg-light"
+                                        value="{{ Auth::user()->email }}" readonly>
+                                    <input type="hidden" name="correo_solicitante" value="{{ Auth::user()->email }}">
+                                    @endif
+                                </div>
+
                                 {{-- ESTADO --}}
                                 <div class="col-md-6">
 

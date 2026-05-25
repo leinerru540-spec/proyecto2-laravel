@@ -33,7 +33,12 @@ Route::get('/lang/{locale}', function ($locale) {
     return redirect('/');
 })->name('lang.switch');
 
+// Reemplaza esto:
 Route::view('/registro', 'auth.registro')->name('register');
+
+// Por esto:
+Route::view('/registro', 'auth.registro')->name('register');
+Route::post('/registro', [AuthController::class, 'registro']);
 
 // En una ruta /dashboard o similar
 Route::get('/dashboard', function () {

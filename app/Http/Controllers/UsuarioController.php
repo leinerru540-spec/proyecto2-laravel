@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,16 @@ class UsuarioController extends Controller
             'password' => Hash::make($request->password),
             'rol_id'   => $request->rol_id,
         ]);
+
+        // Solo crear cliente si el rol es cliente (3)
+        if ($request->rol_id == 3) {
+            Cliente::create([
+                'nombre'   => $request->nombre,
+                'correo'   => $request->email,
+                'telefono' => 'N/A',
+                'empresa'  => 'N/A',
+            ]);
+        }
 
         return redirect()
             ->route('usuarios.index')
@@ -78,8 +89,6 @@ class UsuarioController extends Controller
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
-
-        $usuario->update($data);
 
         $usuario->update($data);
 

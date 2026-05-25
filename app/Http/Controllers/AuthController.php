@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,34 @@ class AuthController extends Controller
         }
 
         return redirect('/solicitudes');
+    }
+
+    public function registro(Request $request)
+    {
+        $request->validate([
+            'nombre'   => 'required|string|max:255',
+            'email'    => 'required|email|unique:usuarios,email',
+            'password' => 'required|min:6',
+        ]);
+
+        $usuario = Usuario::create([
+            'nombre'   => $request->nombre,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'rol_id'   => 3, // rol cliente
+        ]);
+
+
+        Cliente::create([
+            'nombre'   => $request->nombre,
+            'correo'   => $request->email,
+            'telefono' => 'N/A',
+            'empresa'  => 'N/A',
+        ]);
+
+        Auth::login($usuario);
+
+        return redirect('/login');
     }
 
     public function logout(Request $request)

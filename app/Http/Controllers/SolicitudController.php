@@ -31,9 +31,9 @@ class SolicitudController extends Controller
     public function create()
     {
         return view('solicitudes.solicitud-form', [
-            'solicitudForm' => new Solicitud(),
-            'clientes' => Cliente::all(),
-            'consultorias' => Consultoria::all(),
+            'solicitudForm'    => new Solicitud(),
+            'clientes'         => Cliente::all(),
+            'consultorias'     => Consultoria::all(),
             'estadosSolicitud' => ['Pendiente', 'En proceso', 'Finalizada']
         ]);
     }
@@ -50,8 +50,8 @@ class SolicitudController extends Controller
             'correo_solicitante' => 'required|email',
             'nombre_solicitante' => 'required|string',
             'descripcion' => 'required|string',
-            'estado' => 'required|string',
-            'fecha' => 'required|date',
+            'estado' => 'nullable|string',
+            'fecha' => 'nullable|date',
             'cliente_id' => 'required|exists:clientes,id',
             'consultoria_id' => 'required|exists:consultorias,id',
             'usuario_id' => 'required|exists:usuarios,id'
@@ -61,8 +61,8 @@ class SolicitudController extends Controller
             'correo_solicitante' => $request->correo_solicitante,
             'nombre_solicitante' => $request->nombre_solicitante,
             'descripcion' => $request->descripcion,
-            'estado' => $request->estado,
-            'fecha' => $request->fecha,
+            'estado' => $request->estado ?? 'Pendiente',
+            'fecha' => $request->fecha ?? now()->toDateString(),
             'cliente_id' => $request->cliente_id,
             'consultoria_id' => $request->consultoria_id,
             'usuario_id' => $request->usuario_id,
